@@ -342,6 +342,7 @@
     "peer",
     "resolver",
     "resolver/dns",
+    "resolver/manual",
     "resolver/passthrough",
     "stats",
     "status",
