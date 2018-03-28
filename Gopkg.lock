@@ -317,6 +317,7 @@
     "peer",
     "resolver",
     "resolver/dns",
+    "resolver/manual",
     "resolver/passthrough",
     "stats",
     "status",
@@ -340,6 +341,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "54d78c9d66910169e10670b6e078ade50428e2019bd28a5987470fb2da185e26"
+  inputs-digest = "e6952d7971c31e28eeda70053fcb72a5187e09af5cf1277a3a37a1a274ebccc2"
   solver-name = "gps-cdcl"
   solver-version = 1

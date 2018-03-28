@@ -31,7 +31,7 @@ func NewRoundrobin(readySCs map[resolver.Address]balancer.SubConn, lg logutil.Lo
 		scs = append(scs, sc)
 	}
 
-	pk := &rrPicker{subConns: scs}
+	pk := &rrPicker{lg: lg, subConns: scs}
 
 	// TODO: update endpoints
 	// TODO: add logging
