@@ -865,6 +865,13 @@ func (m *member) Launch() error {
 }
 
 func (m *member) WaitOK(t *testing.T) {
+	m.WaitStarted(t)
+	for m.s.Leader() == 0 {
+		time.Sleep(tickDuration)
+	}
+}
+
+func (m *member) WaitStarted(t *testing.T) {
 	cc := MustNewHTTPClient(t, []string{m.URL()}, m.ClientTLSInfo)
 	kapi := client.NewKeysAPI(cc)
 	for {
@@ -877,9 +884,7 @@ func (m *member) WaitOK(t *testing.T) {
 		cancel()
 		break
 	}
-	for m.s.Leader() == 0 {
-		time.Sleep(tickDuration)
-	}
+
 }
 
 func (m *member) URL() string { return m.ClientURLs[0].String() }
