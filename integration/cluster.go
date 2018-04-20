@@ -520,6 +520,7 @@ type member struct {
 	PeerTLSInfo *transport.TLSInfo
 	// ClientTLSInfo enables client TLS when set
 	ClientTLSInfo *transport.TLSInfo
+	DialOptions   []grpc.DialOption
 
 	raftHandler   *testutil.PauseableHandler
 	s             *etcdserver.EtcdServer
@@ -709,6 +710,9 @@ func NewClientV3(m *member) (*clientv3.Client, error) {
 			return nil, err
 		}
 		cfg.TLS = tls
+	}
+	if m.DialOptions != nil {
+		cfg.DialOptions = append(cfg.DialOptions, m.DialOptions...)
 	}
 	return newClientV3(cfg)
 }
