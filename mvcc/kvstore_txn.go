@@ -166,7 +166,7 @@ func (tr *storeTxnRead) rangeKeys(key, end []byte, curRev int64, ro RangeOptions
 
 	if limit > tr.expensiveReadLimit && !tr.txlocked && tr.ro { // first expensive read in a read only transaction
 		// too many keys to range. upgrade the read transaction to concurrent read tx.
-		tr.tx = tr.b.CommittedReadTx()
+		tr.tx = tr.b.ConcurrentReadTx()
 		tr.isCommittedRead = true
 	}
 	if !tr.txlocked {

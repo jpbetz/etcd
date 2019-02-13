@@ -16,9 +16,11 @@ package backend
 
 import (
 	bolt "go.etcd.io/bbolt"
+	"go.uber.org/zap"
 )
 
 type concurrentReadTx struct {
+	lg *zap.Logger
 	tx *bolt.Tx
 }
 
@@ -28,11 +30,22 @@ func (rt *concurrentReadTx) Unlock() { rt.tx.Rollback() }
 func (rt *concurrentReadTx) UnsafeRange(bucketName, key, endKey []byte, limit int64) ([][]byte, [][]byte) {
 	bucket := rt.tx.Bucket(bucketName)
 	if bucket == nil {
-		plog.Fatalf("bucket %s does not exist", bucketName)
+		if rt.lg != nil {
+			rt.lg.Fatal("bucket does not exist", zap.String("bucket", string(bucketName)))
+		} else {
+			plog.Fatalf("bucket %s does not exist", bucketName)
+		}
 	}
 	return unsafeRange(bucket.Cursor(), key, endKey, limit)
 }
 
 func (rt *concurrentReadTx) UnsafeForEach(bucketName []byte, visitor func(k, v []byte) error) error {
 	return unsafeForEach(rt.tx, bucketName, visitor)
+}
+
+func (m *MonitoredReadTx) UnsafeRange(bucketName, key, endKey []byte, limit int64) ([][]byte, [][]byte) {
+	return m.Tx.UnsafeRange(bucketName, key, endKey, limit)
+}
+func (m *MonitoredReadTx) UnsafeForEach(bucketName []byte, visitor func(k, v []byte) error) error {
+	return m.Tx.UnsafeForEach(bucketName, visitor)
 }
