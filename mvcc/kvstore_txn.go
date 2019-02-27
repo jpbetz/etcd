@@ -33,7 +33,7 @@ func (s *store) Read() TxnRead {
 	s.mu.RLock()
 	tx := s.b.ReadTx()
 	s.revMu.RLock()
-	tx.Lock()
+	tx.RLock()
 	firstRev, rev := s.compactMainRev, s.currentRev
 	s.revMu.RUnlock()
 	return newMetricsTxnRead(&storeTxnRead{s, tx, firstRev, rev})
@@ -47,7 +47,7 @@ func (tr *storeTxnRead) Range(key, end []byte, ro RangeOptions) (r *RangeResult,
 }
 
 func (tr *storeTxnRead) End() {
-	tr.tx.Unlock()
+	tr.tx.RUnlock()
 	tr.s.mu.RUnlock()
 }
 

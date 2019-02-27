@@ -257,7 +257,7 @@ func newBatchTxBuffered(backend *backend) *batchTxBuffered {
 	return tx
 }
 
-func (t *batchTxBuffered) Unlock() {
+func (t *batchTxBuffered) RUnlock() {
 	if t.pending != 0 {
 		t.backend.readTx.mu.Lock()
 		t.buf.writeback(&t.backend.readTx.buf)
