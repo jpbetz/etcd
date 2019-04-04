@@ -46,7 +46,7 @@ const (
 )
 
 var (
-	newRangeClusterVersion = *semver.Must(semver.NewVersion("3.1.0"))
+	newRangeClusterVersion = *semver.Must(semver.NewVersion("3.2.0"))
 )
 
 type RaftKV interface {
