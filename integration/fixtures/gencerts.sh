@@ -80,5 +80,32 @@ cfssl gencert \
 mv server-wildcard.pem server-wildcard.crt
 mv server-wildcard-key.pem server-wildcard.key.insecure
 
+# generate DNS name certificates, DNS: member1.etcd.local
+cfssl gencert \
+  --ca ./ca.crt \
+  --ca-key ./ca-key.pem \
+  --config ./gencert.json \
+  ./server-ca-csr-dnsname1.json | cfssljson --bare ./server-dnsname1
+mv server-dnsname1.pem server-dnsname1.crt
+mv server-dnsname1-key.pem server-dnsname1.key.insecure
+
+# generate DNS name certificates, DNS: member2.etcd.local
+cfssl gencert \
+  --ca ./ca.crt \
+  --ca-key ./ca-key.pem \
+  --config ./gencert.json \
+  ./server-ca-csr-dnsname2.json | cfssljson --bare ./server-dnsname2
+mv server-dnsname2.pem server-dnsname2.crt
+mv server-dnsname2-key.pem server-dnsname2.key.insecure
+
+# generate DNS name certificates, DNS: member3.etcd.local
+cfssl gencert \
+  --ca ./ca.crt \
+  --ca-key ./ca-key.pem \
+  --config ./gencert.json \
+  ./server-ca-csr-dnsname3.json | cfssljson --bare ./server-dnsname3
+mv server-dnsname3.pem server-dnsname3.crt
+mv server-dnsname3-key.pem server-dnsname3.key.insecure
+
 
 rm -f *.csr *.pem *.stderr *.txt
