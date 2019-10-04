@@ -86,7 +86,7 @@ func (e *ResolverGroup) SetEndpoints(endpoints []string) {
 	e.mu.Lock()
 	e.endpoints = endpoints
 	for _, r := range e.resolvers {
-		r.cc.NewAddress(addrs)
+		r.cc.UpdateState(resolver.State{Addresses:addrs})
 	}
 	e.mu.Unlock()
 }
@@ -174,7 +174,8 @@ type Resolver struct {
 func epsToAddrs(eps ...string) (addrs []resolver.Address) {
 	addrs = make([]resolver.Address, 0, len(eps))
 	for _, ep := range eps {
-		addrs = append(addrs, resolver.Address{Addr: ep})
+		_, host, _ := ParseEndpoint(ep)
+		addrs = append(addrs, resolver.Address{Addr: ep, ServerName: host})
 	}
 	return addrs
 }

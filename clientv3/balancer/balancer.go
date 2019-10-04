@@ -20,15 +20,15 @@ import (
 	"sync"
 	"time"
 
-	"go.etcd.io/etcd/clientv3/balancer/connectivity"
-	"go.etcd.io/etcd/clientv3/balancer/picker"
-
 	"go.uber.org/zap"
 	"google.golang.org/grpc/balancer"
 	grpcconnectivity "google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/resolver"
 	_ "google.golang.org/grpc/resolver/dns"         // register DNS resolver
 	_ "google.golang.org/grpc/resolver/passthrough" // register passthrough resolver
+
+	"go.etcd.io/etcd/clientv3/balancer/connectivity"
+	"go.etcd.io/etcd/clientv3/balancer/picker"
 )
 
 // Config defines balancer configurations.
